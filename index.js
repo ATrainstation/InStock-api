@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const knex = require("knex");
 const warehousesRoute = require("./routes/warehouses-routes.js");
+const inventoriesRoute = require("./routes/inventories-routes.js");
 
 require("dotenv").config();
 
@@ -17,6 +19,7 @@ app.use("/api", router);
 
 
 router.use("/warehouses", warehousesRoute);
+router.use("/inventories", inventoriesRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

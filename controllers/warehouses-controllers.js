@@ -29,11 +29,41 @@ const getAll = async (_req, res) => {
       });
     }
   };
+
+  const deleteOne = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const deletedInventory = await knex('inventories')
+        .where({warehouse_id: id})
+        .del()
+
+        const deletedWarehouse = await knex('warehouses')
+            .where({ id: id })
+            .del();
+
+        if (deletedWarehouse === 0) {
+            return res.status(404).send({
+                message: `Warehouse with ID ${id} not found.`
+            });
+        }
+
+        res.status(204).send({ 
+            message: 'Warehouse deleted successfully.' 
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: 'Error deleting the warehouse.',
+            error: error.message
+        });
+    }
+};
   
 
   
   module.exports = {
     getAll,
-    findOne
+    findOne,
+    deleteOne
   }
   
