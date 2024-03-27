@@ -1,20 +1,22 @@
-const express = require('express');
-const cors = require('cors')
-const warehousesRoute = require('./routes/warehouses-routes.js')
+const express = require("express");
+const cors = require("cors");
+const warehousesRoute = require("./routes/warehouses-routes.js");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
-app.use(express.json());
-app.use(cors())
+const router = express.Router();
 
+app.use(express.json());
+app.use(cors());
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use("/api", router);
 
-app.use("/api/warehouses", warehousesRoute);
 
+router.use("/warehouses", warehousesRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
