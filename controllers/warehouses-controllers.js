@@ -83,10 +83,9 @@ const addOne = async (req, res) => {
       const contact_email = "wonka@willys.com";
       
       const now = new Date();
-      const formattedDate = now.toISOString();
       
-      const created_at = formattedDate
-       const updated_at = formattedDate
+      const created_at = now;
+       const updated_at = now;
 
       const [newWarehouseId] = await knex('warehouses').insert({
         warehouse_name,
