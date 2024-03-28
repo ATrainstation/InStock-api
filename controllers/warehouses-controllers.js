@@ -2,11 +2,19 @@ const knex = require("knex")(require("../knexfile"));
 
 const editOne = async (req, res) => {
   try {
-    (await knex("warehouse")).where({ id: req.params.id }).update(req.body);
-    res.sendstatus(200);
+    const rowsUpdated = await knex("warehouses")
+      .where({ id: req.params.id })
+      .update(req.body);
+    if (rowsUpdated === 0) {
+      return res.status(404).json({
+        message: `Warehouse with ID ${req.params.id} not found`,
+      });
+    }
+    res.json(rowsUpdated[0]);
+    res.status(200);
   } catch {
     res.status(400).json({
-      message: `Error updating user ${req.params.id}`,
+      message: `Error updating warehouse: ${req.params.id}`,
     });
   }
 };
@@ -123,5 +131,5 @@ module.exports = {
   getAll,
   findOne,
   deleteOne,
-  editOne
+  editOne,
 };
