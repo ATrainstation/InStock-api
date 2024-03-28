@@ -30,24 +30,6 @@ const findOne = async (req, res) => {
   }
 };
 
-const inventoryByWarehouseId = async (req, res) => {
-    try {
-      const id = req.params.id;
-      const inventoryByWarehouseId = await knex("inventories").where({
-        warehouse_id: id,
-      });
-  
-      if (inventoryByWarehouseId === 0) {
-        return res.status(404).json({
-          message: `Warehouse with ID ${id} not found`,
-        });
-      }
-      res.status(200).json(inventoryByWarehouseId);
-    } catch (error) {
-      res.status(500).json({ error });
-    }
-  };
-
 const deleteOne = async (req, res) => {
   try {
     const id = req.params.id;
@@ -75,6 +57,5 @@ const deleteOne = async (req, res) => {
 module.exports = {
   getAll,
   findOne,
-  inventoryByWarehouseId,
   deleteOne,
 };

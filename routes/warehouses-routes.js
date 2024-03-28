@@ -11,4 +11,6 @@ router.delete('/:id', warehousesController.deleteOne);
 
 router.post('/', warehousesController.addOne);
 
+router.get('/:id/inventories', warehousesController.inventoryByWarehouseId);
+
 module.exports = router;
