@@ -60,8 +60,62 @@ const getAll = async (_req, res) => {
 };
   
 
+const addOne = async (req, res) => {
+  try {
+      // const { 
+      //   warehouse_name,
+      //   address,
+      //   city,
+      //   country,
+      //   contact_name,
+      //   contact_position,
+      //   contact_phone,
+      //   contact_email,
+      //  } = req.body;
+
+     const warehouse_name = "Willy Wonka's";
+     const address = "123 Faket Street";
+     const city = "The Hood";
+      const country = "Banana Land";
+      const contact_name = "Mohan Muruge";
+      const contact_position = "Kernel";
+      const contact_phone = "416-555-8767";
+      const contact_email = "wonka@willys.com";
+      
+      const now = new Date();
+      const formattedDate = now.toISOString();
+      
+      const created_at = formattedDate
+       const updated_at = formattedDate
+
+      const [newWarehouseId] = await knex('warehouses').insert({
+        warehouse_name,
+        address,
+        city,
+        country,
+        contact_name,
+        contact_position,
+        contact_phone,
+        contact_email,
+        created_at,
+        updated_at
+      })
+
+      res.status(201).json({
+          message: 'Warehouse added successfully.',
+          warehouseId: newWarehouseId
+      });
+
+  } catch (error) {
+      res.status(500).send({
+          message: 'Error adding the warehouse.',
+          error: error.message
+      });
+  }
+};
   
   module.exports = {
+    addOne,
     getAll,
     findOne,
     deleteOne
