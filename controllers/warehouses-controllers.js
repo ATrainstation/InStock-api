@@ -41,16 +41,17 @@ const getAll = async (_req, res) => {
         const deletedWarehouse = await knex('warehouses')
             .where({ id: id })
             .del();
-
+          
+    
         if (deletedWarehouse === 0) {
             return res.status(404).send({
                 message: `Warehouse with ID ${id} not found.`
             });
         }
+        
+        res.status(204);
 
-        res.status(204).send({ 
-            message: 'Warehouse deleted successfully.' 
-        });
+
     } catch (error) {
         res.status(500).send({
             message: 'Error deleting the warehouse.',
