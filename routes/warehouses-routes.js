@@ -6,6 +6,8 @@ router.get('/', warehousesController.getAll);
 
 router.get('/:id', warehousesController.findOne);
 
+router.delete('/:id', warehousesController.deleteOne);
 
+router.post('/', warehousesController.addOne);
 
 module.exports = router;
