@@ -132,7 +132,7 @@ const inventoryByWarehouseId = async (req, res) => {
     const inventoryByWarehouseId = await knex("inventories")
     .where({ warehouse_id: id });
 
-    if (inventoryByWarehouseId === 0) {
+    if (inventoryByWarehouseId.length === 0) {
       return res.status(404).json({
         message: `Warehouse with ID ${id} not found`,
       });

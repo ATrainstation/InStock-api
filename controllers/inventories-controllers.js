@@ -3,6 +3,12 @@ const knex = require("knex")(require("../knexfile"));
 const getAll = async (_req, res) => {
   try {
     const data = await knex("inventories");
+
+    if (data.length === 0){
+      return res.status(404).json({
+        message: `Warehouse with ID ${req.params.id} not found`,
+      });
+    }
     res.status(200).json(data);
   } catch (err) {
     res.status(400).send(`Error retrieving Inventories: ${err}`);
