@@ -74,6 +74,34 @@ const deleteOne = async (req, res) => {
   }
 };
 
+const validateWarehouse = (req, res, next) => {
+  const { warehouseName, streetAddress, city, country, contactName, position, phoneNumber, email } = req.body;
+  const errors = {};
+
+  if (!warehouseName) errors.warehouseName = "Warehouse name is required.";
+
+  if (email) {
+    const atSymbolIndex = email.indexOf('@');
+    const dotIndex = email.lastIndexOf('.');
+    if (atSymbolIndex <= 0 || dotIndex <= atSymbolIndex + 1 || dotIndex >= email.length - 1 || email.indexOf('@', atSymbolIndex + 1) !== -1) {
+      errors.email = "Invalid email address.";
+    }
+  }
+
+  if (phoneNumber) {
+    const cleanNumber = phoneNumber.split('').filter(n => n >= '0' && n <= '9').join('');
+    if (cleanNumber.length !== 10 || phoneNumber.length !== cleanNumber.length) {
+      errors.phoneNumber = "Invalid phone number.";
+    }
+  }
+
+  if (Object.keys(errors).length) {
+    return res.status(400).json({ errors });
+  }
+
+  next();
+};
+
 const addOne = async (req, res) => {
   try {
     // const {
@@ -149,5 +177,6 @@ module.exports = {
   findOne,
   deleteOne,
   editOne,
-  inventoryByWarehouseId
+  inventoryByWarehouseId,
+  validateWarehouse
 };
