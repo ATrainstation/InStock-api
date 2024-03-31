@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const inventoriesController = require('../controllers/inventories-controllers.js');
 
+router.post('/', inventoriesController.addOne);
+
 router.get('/', inventoriesController.getAll);
 
 router.get('/:id', inventoriesController.findOne);

@@ -4,7 +4,7 @@ const getAll = async (_req, res) => {
   try {
     const data = await knex("inventories");
 
-    if (data.length === 0){
+    if (data.length === 0) {
       return res.status(404).json({
         message: `Warehouse with ID ${req.params.id} not found`,
       });
@@ -60,8 +60,46 @@ const deleteOne = async (req, res) => {
   }
 };
 
+const addOne = async (req, res) => {
+  try {
+    const id = 1;
+    const warehouse_id = 1;
+    const item_name = "Television";
+    const description =
+      'This 50", 4K LED TV provides a crystal-clear picture and vivid colors.';
+    const category = "Electronics";
+    const status = "In Stock";
+    const quantity = 500;
+
+    const now = new Date();
+
+    const created_at = now;
+    const updated_at = now;
+
+    const [newInventoryId] = await knex("inventories").insert({
+      item_name,
+      description,
+      category,
+      status,
+      quantity,
+      created_at,
+      updated_at,
+    });
+    res.status(201).json({
+      message: "Item added successfully.",
+      inventoryId: newInventoryId,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error adding the item.",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAll,
   findOne,
   deleteOne,
+  addOne
 };
