@@ -1,7 +1,10 @@
 const router = require("express").Router();
 const warehousesController = require("../controllers/warehouses-controllers.js");
 
-router.put("/:id", warehousesController.editOne);
+router
+.route("/:id")
+.post(warehousesController.validateWarehouse)
+.post(warehousesController.editOne);
 
 router.get("/", warehousesController.getAll);
 

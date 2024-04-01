@@ -75,10 +75,10 @@ const deleteOne = async (req, res) => {
 };
 
 const validateWarehouse = (req, res, next) => {
-  const { warehouseName, streetAddress, city, country, contactName, position, phoneNumber, email } = req.body;
+  const { warehouse_name, address, city, country, contact_name, position, contact_phone, email } = req.body;
   const errors = {};
 
-  if (!warehouseName) errors.warehouseName = "Warehouse name is required.";
+  if (!warehouse_name) errors.warehouse_name = "Warehouse name is required.";
 
   if (email) {
     const atSymbolIndex = email.indexOf('@');
@@ -88,10 +88,10 @@ const validateWarehouse = (req, res, next) => {
     }
   }
 
-  if (phoneNumber) {
-    const cleanNumber = phoneNumber.split('').filter(n => n >= '0' && n <= '9').join('');
-    if (cleanNumber.length !== 10 || phoneNumber.length !== cleanNumber.length) {
-      errors.phoneNumber = "Invalid phone number.";
+  if (contact_phone) {
+    const cleanNumber = contact_phone.split('').filter(n => n >= '0' && n <= '9').join('');
+    if (cleanNumber.length !== 10 || contact_phone.length !== cleanNumber.length) {
+      errors.contact_phone = "Invalid phone number.";
     }
   }
 
