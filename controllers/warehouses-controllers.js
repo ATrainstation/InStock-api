@@ -115,15 +115,6 @@ const addOne = async (req, res) => {
       contact_email,
      } = req.body;
 
-    // const warehouse_name = "Willy Wonka's";
-    // const address = "123 Faket Street";
-    // const city = "The Hood";
-    // const country = "Banana Land";
-    // const contact_name = "Mohan Muruge";
-    // const contact_position = "Kernel";
-    // const contact_phone = "416-555-8767";
-    // const contact_email = "wonka@willys.com";
-
     const now = new Date();
 
     const created_at = now;
