@@ -103,7 +103,7 @@ const validateInventory = (req, res, next) => {
     req.body;
   const errors = {};
 
-  if (!item_name) errors.item_name = "IteM name is required.";
+  if (!item_name) errors.item_name = "Item name is required.";
 
 
   if (Object.keys(errors).length) {
