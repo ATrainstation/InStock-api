@@ -49,9 +49,7 @@ const deleteOne = async (req, res) => {
       });
     }
 
-    res.status(204).send({
-      message: "Inventory Item deleted successfully.",
-    });
+    res.status(204).sendStaus();
   } catch (error) {
     res.status(500).send({
       message: "Error deleting the Inventory Item.",
