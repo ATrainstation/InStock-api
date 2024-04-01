@@ -77,6 +77,7 @@ const addOne = async (req, res) => {
     const updated_at = now;
 
     const [newInventoryId] = await knex("inventories").insert({
+      warehouse_id,
       item_name,
       description,
       category,
