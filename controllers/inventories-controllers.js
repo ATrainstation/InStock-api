@@ -49,9 +49,7 @@ const deleteOne = async (req, res) => {
       });
     }
 
-    res.status(204).send({
-      message: "Inventory Item deleted successfully.",
-    });
+    res.status(204).sendStaus();
   } catch (error) {
     res.status(500).send({
       message: "Error deleting the Inventory Item.",
@@ -62,19 +60,21 @@ const deleteOne = async (req, res) => {
 
 const addOne = async (req, res) => {
   try {
-    const id = 1;
-    const warehouse_id = 1;
-    const item_name = "Television";
-    const description =
-      'This 50", 4K LED TV provides a crystal-clear picture and vivid colors.';
-    const category = "Electronics";
-    const status = "In Stock";
-    const quantity = 500;
+    let { warehouse_id, item_name, description, category, status, quantity } =
+      req.body;
 
     const now = new Date();
 
     const created_at = now;
     const updated_at = now;
+
+    if (status === "Out of Stock"){
+      quantity = 0;
+    }
+
+    if (!warehouse_id){
+      warehouse_id = 1;
+    }
 
     const [newInventoryId] = await knex("inventories").insert({
       warehouse_id,
@@ -98,9 +98,25 @@ const addOne = async (req, res) => {
   }
 };
 
+const validateInventory = (req, res, next) => {
+  let { warehouse_id, item_name, description, category, status, quantity } =
+    req.body;
+  const errors = {};
+
+  if (!item_name) errors.item_name = "IteM name is required.";
+
+
+  if (Object.keys(errors).length) {
+    return res.status(400).json({ errors });
+  }
+
+  next();
+};
+
 module.exports = {
   getAll,
   findOne,
   deleteOne,
-  addOne
+  addOne,
+  validateInventory
 };
