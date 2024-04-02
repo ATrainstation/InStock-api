@@ -3,8 +3,8 @@ const warehousesController = require("../controllers/warehouses-controllers.js")
 
 router
 .route("/:id")
-.post(warehousesController.validateWarehouse)
-.post(warehousesController.editOne);
+.put(warehousesController.validateWarehouse)
+.put(warehousesController.editOne);
 
 router.get("/", warehousesController.getAll);
 

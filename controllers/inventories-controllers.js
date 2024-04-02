@@ -48,8 +48,7 @@ const deleteOne = async (req, res) => {
         message: `Inventory Item with ID ${id} not found.`,
       });
     }
-
-    res.status(204).sendStaus();
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).send({
       message: "Error deleting the Inventory Item.",
@@ -64,14 +63,12 @@ const addOne = async (req, res) => {
       req.body;
 
     const now = new Date();
-
     const created_at = now;
     const updated_at = now;
 
     if (status === "Out of Stock"){
       quantity = 0;
     }
-
     if (!warehouse_id){
       warehouse_id = 1;
     }
@@ -86,6 +83,7 @@ const addOne = async (req, res) => {
       created_at,
       updated_at,
     });
+    
     res.status(201).json({
       message: "Item added successfully.",
       inventoryId: newInventoryId,
