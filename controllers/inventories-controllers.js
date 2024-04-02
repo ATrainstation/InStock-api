@@ -111,10 +111,83 @@ const validateInventory = (req, res, next) => {
   next();
 };
 
+const editSingleInventory = async (req, res) => {
+  try {
+    if (
+      !("warehouse_id" in req.body) ||
+      !("item_name" in req.body) ||
+      !("description" in req.body) ||
+      !("category" in req.body) ||
+      !("status" in req.body) ||
+      !("quantity" in req.body)
+    ) {
+      return res
+        .status(400)
+        .send("Please provide all information for the request");
+    }
+
+    if (isNaN(Number(req.body.quantity))) {
+      return res
+        .status(400)
+        .send(`Quantity is not a number for inventory id ${req.body.id}`);
+    }
+
+    const warehouseFound = await knex("inventories").where({
+      warehouse_id: req.body.warehouse_id,
+    });
+    if (!warehouseFound[0]) {
+      return res
+        .status(400)
+        .send(
+          `The warehouse_id ${req.body.warehouse_id} does not exist in the warehouses table`
+        );
+    }
+
+    const inventoryFound = await knex("inventories").where({
+      id: req.params.id,
+    });
+    if (!inventoryFound[0]) {
+      return res
+        .status(404)
+        .send(
+          `The inventory_id ${req.params.id} does not exist in the inventories table`
+        );
+    }
+    const now = new Date();
+
+    const updatedData = {
+      warehouse_id: warehouseFound.id,
+      item_name: req.body.item_name,
+      description: req.body.description,
+      category: req.body.category,
+      status: req.body.item_status,
+      quantity: Number(req.body.quantity),
+      updated_at: now,
+    };
+
+    const rowsUpdated = await knex("inventories")
+      .where({ id: req.params.id })
+      .update(updatedData);
+
+    const updatedInventory = await knex("inventories").where({
+      id: req.params.id,
+    });
+
+    res.status(200).json(updatedInventory[0]);
+  } catch (error) {
+    res
+      .status(500)
+      .send(
+        `Error in updating Inventory for id :editSingleInventory() method: ${error}`
+      );
+  }
+};
+
 module.exports = {
   getAll,
   findOne,
   deleteOne,
   addOne,
-  validateInventory
+  validateInventory,
+  editSingleInventory,
 };
