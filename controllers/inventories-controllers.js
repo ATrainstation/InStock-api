@@ -114,7 +114,7 @@ const validateInventory = (req, res, next) => {
 const editSingleInventory = async (req, res) => {
   try {
     if (
-      !("warehouse_name" in req.body) ||
+      !("warehouse_id" in req.body) ||
       !("item_name" in req.body) ||
       !("description" in req.body) ||
       !("category" in req.body) ||
@@ -132,8 +132,8 @@ const editSingleInventory = async (req, res) => {
         .send(`Quantity is not a number for inventory id ${req.body.id}`);
     }
 
-    const warehouseFound = await knex("warehouses").where({
-      warehouse_name: req.body.warehouse_name,
+    const warehouseFound = await knex("inventories").where({
+      warehouse_id: req.body.warehouse_id,
     });
     if (!warehouseFound[0]) {
       return res
@@ -153,6 +153,7 @@ const editSingleInventory = async (req, res) => {
           `The inventory_id ${req.params.id} does not exist in the inventories table`
         );
     }
+    const now = new Date();
 
     const updatedData = {
       warehouse_id: warehouseFound.id,
@@ -161,6 +162,7 @@ const editSingleInventory = async (req, res) => {
       category: req.body.category,
       status: req.body.item_status,
       quantity: Number(req.body.quantity),
+      updated_at: now,
     };
 
     const rowsUpdated = await knex("inventories")
