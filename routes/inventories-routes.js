@@ -10,6 +10,6 @@ router.get("/", inventoriesController.getAll);
 
 router.get("/:id", inventoriesController.findOne);
 
-router.delete("/inventories/:id", inventoriesController.deleteOne);
+router.delete("/:id", inventoriesController.deleteOne);
 
 module.exports = router;
