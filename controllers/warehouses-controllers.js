@@ -78,8 +78,6 @@ const validateWarehouse = (req, res, next) => {
   const { warehouse_name, address, city, country, contact_name, position, contact_phone, email } = req.body;
   const errors = {};
 
-  if (!warehouse_name) errors.warehouse_name = "Warehouse name is required.";
-
   if (email) {
     const atSymbolIndex = email.indexOf('@');
     const dotIndex = email.lastIndexOf('.');
@@ -90,8 +88,8 @@ const validateWarehouse = (req, res, next) => {
 
   if (contact_phone) {
     const cleanNumber = contact_phone.split('').filter(n => n >= '0' && n <= '9').join('');
-    if (cleanNumber.length !== 10 || contact_phone.length !== cleanNumber.length) {
-      errors.contact_phone = "Invalid phone number.";
+    if (cleanNumber.length !== 11) {
+      errors.contact_phone = "Invalid phone number. Ensure it includes 10 digits.";
     }
   }
 

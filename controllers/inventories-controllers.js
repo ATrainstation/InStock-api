@@ -39,7 +39,7 @@ const findOne = async (req, res) => {
 const deleteOne = async (req, res) => {
   try {
     const id = req.params.id;
-    const deletedInventoryItem = await knex("inventories")
+    const deletedInventoryItem = await knex("/:id")
       .where({ id: id })
       .del();
 
