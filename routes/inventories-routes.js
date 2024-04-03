@@ -11,6 +11,6 @@ router.get("/", inventoriesController.getAll);
 router.get("/:id", inventoriesController.findOne);
 
 router.delete("/:id", inventoriesController.deleteOne);
-router.put("/:id", inventoriesController.editSingleInventory);
+router.put("/:id", inventoriesController.editOne);
 
 module.exports = router;

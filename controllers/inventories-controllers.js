@@ -113,18 +113,18 @@ const validateInventory = (req, res, next) => {
 
 const editSingleInventory = async (req, res) => {
   try {
-    if (
-      !("warehouse_id" in req.body) ||
-      !("item_name" in req.body) ||
-      !("description" in req.body) ||
-      !("category" in req.body) ||
-      !("status" in req.body) ||
-      !("quantity" in req.body)
-    ) {
-      return res
-        .status(400)
-        .send("Please provide all information for the request");
-    }
+    // if (
+    //   !("itemName" in req.body) ||
+    //   !("description" in req.body) ||
+    //   !("category" in req.body) ||
+    //   !("status" in req.body) ||
+    //   !("quantity" in req.body) ||
+    //   !("warehouseId" in req.body) 
+    // ) {
+    //   return res
+    //     .status(400)
+    //     .send("Please provide all information for the request");
+    // }
 
     if (isNaN(Number(req.body.quantity))) {
       return res
@@ -133,13 +133,13 @@ const editSingleInventory = async (req, res) => {
     }
 
     const warehouseFound = await knex("inventories").where({
-      warehouse_id: req.body.warehouse_id,
+      warehouse_id: req.body.warehouseId,
     });
     if (!warehouseFound[0]) {
       return res
         .status(400)
         .send(
-          `The warehouse_id ${req.body.warehouse_id} does not exist in the warehouses table`
+          `The warehouse_id ${req.body.warehouseId} does not exist in the warehouses table`
         );
     }
 
@@ -157,10 +157,10 @@ const editSingleInventory = async (req, res) => {
 
     const updatedData = {
       warehouse_id: warehouseFound.id,
-      item_name: req.body.item_name,
+      item_name: req.body.itemName,
       description: req.body.description,
       category: req.body.category,
-      status: req.body.item_status,
+      status: req.body.status,
       quantity: Number(req.body.quantity),
       updated_at: now,
     };
@@ -183,6 +183,25 @@ const editSingleInventory = async (req, res) => {
   }
 };
 
+const editOne = async (req, res) => {
+  try {
+    const rowsUpdated = await knex("inventories")
+      .where({ id: req.params.id })
+      .update(req.body);
+    if (rowsUpdated === 0) {
+      return res.status(404).json({
+        message: `Inventory with ID ${req.params.id} not found`,
+      });
+    }
+    res.json(rowsUpdated[0]);
+    res.status(200);
+  } catch {
+    res.status(400).json({
+      message: `Error updating Inventory: ${req.params.id}`,
+    });
+  }
+};
+
 module.exports = {
   getAll,
   findOne,
@@ -190,4 +209,5 @@ module.exports = {
   addOne,
   validateInventory,
   editSingleInventory,
+  editOne
 };
